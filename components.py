@@ -93,15 +93,18 @@ class Board:
         forbidden = {(safe_col, safe_row)} | set(self.neighbors(safe_col, safe_row))
         pool = [p for p in all_positions if p not in forbidden]
         random.shuffle(pool)
-        
-        # Compute adjacency counts
-        random.shuffle(pool)
         mine_count = self.num_mines
         mine_positions = pool[:mine_count] 
         
         for c, r in mine_positions:
             self.cells[self.index(c, r)].state.is_mine = True
-
+        # Compute adjacency counts
+        for r in range(self.rows):
+            for c in range(self.cols):
+                if not self.cells[self.index(c, r)].state.is_mine:
+                    count = sum(1 for nc, nr in self.neighbors(c, r) if self.cells[self.index(nc, nr)].state.is_mine)
+                    self.cells[self.index(c, r)].state.adjacent = count
+        self._mines_placed = True
         pass
 
     def reveal(self, col: int, row: int) -> None:
@@ -110,6 +113,7 @@ class Board:
             return
         if not self._mines_placed:
             self.place_mines(col, row)
+            
 
         if self.cells[self.index(col, row)].state.is_revealed:
             return
