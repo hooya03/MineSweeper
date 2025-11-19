@@ -127,16 +127,18 @@ class Board:
             for c, r in neighbors:
                 if not self.cells[self.index(c, r)].state.is_revealed:
                     self.reveal(c, r)
-
-        
+        self.cells[self.index(col, row)].state.is_revealed = True
+        self.revealed_count += 1
         self._check_win()
         pass
 
     def toggle_flag(self, col: int, row: int) -> None:
         # TODO: Toggle a flag on a non-revealed cell.
-        # if not self.is_inbounds(col, row):
-        #     return
-        
+        if not self.is_inbounds(col, row):
+            return
+        cell = self.cells[self.index(col, row)]
+        if not cell.state.is_revealed:
+            cell.state.is_flagged = not cell.state.is_flagged        
         pass
 
     def flagged_count(self) -> int:
