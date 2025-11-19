@@ -117,6 +117,8 @@ class InputController:
 
     def handle_mouse(self, pos, button) -> None:
         # TODO: Handle mouse button events: left=reveal, right=flag, middle=neighbor highlight  in here
+        if self.game.board.game_over or self.game.board.win:
+            return
         col, row = self.pos_to_grid(pos[0], pos[1])
         if col == -1:
             return

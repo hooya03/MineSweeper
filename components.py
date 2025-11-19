@@ -124,13 +124,12 @@ class Board:
         
         self.cells[self.index(col, row)].state.is_revealed = True
         self.cells[self.index(col, row)].state.is_flagged = False
-        
+
         if self.cells[self.index(col, row)].state.adjacent == 0:
             neighbors = self.neighbors(col, row)
             for nc, nr in neighbors:
                 if not self.cells[self.index(nc, nr)].state.is_revealed and not self.cells[self.index(nc, nr)].state.is_mine:
-                    if self.cells[self.index(nc, nr)].state.adjacent == 0:
-                        self.reveal(nc, nr)
+                    self.reveal(nc, nr)
         
         self.revealed_count += 1
         self._check_win()
