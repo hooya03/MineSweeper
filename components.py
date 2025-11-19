@@ -88,16 +88,18 @@ class Board:
 
     def place_mines(self, safe_col: int, safe_row: int) -> None:
         # TODO: Place mines randomly, guaranteeing the first click and its neighbors are safe. And Compute adjacency counts
-        # all_positions = [(c, r) for r in range(self.rows) for c in range(self.cols)]
-        # forbidden = {(safe_col, safe_row)} | set(self.neighbors(safe_col, safe_row))
-        # pool = [p for p in all_positions if p not in forbidden]
-        # random.shuffle(pool)
+        all_positions = [(c, r) for r in range(self.rows) for c in range(self.cols)]
+        forbidden = {(safe_col, safe_row)} | set(self.neighbors(safe_col, safe_row))
+        pool = [p for p in all_positions if p not in forbidden]
+        random.shuffle(pool)
         
         # Compute adjacency counts
-        # for r in range(self.rows):
-        #     for c in range(self.cols):
-
-        # self._mines_placed = True
+        random.shuffle(pool)
+        mine_count = self.num_mines
+        mine_positions = pool[:mine_count] 
+        
+        for c, r in mine_positions:
+            self.cells[self.index(c, r)].state.is_mine = True
 
         pass
 
