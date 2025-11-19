@@ -83,7 +83,8 @@ class Board:
             nr = row + dr
             
             if self.is_inbounds(nc, nr):
-                result.append((nc, nr))       
+                result.append((nc, nr))
+
         return result
 
     def place_mines(self, safe_col: int, safe_row: int) -> None:
@@ -105,13 +106,30 @@ class Board:
 
     def reveal(self, col: int, row: int) -> None:
         # TODO: Reveal a cell; if zero-adjacent, iteratively flood to neighbors.
-        # if not self.is_inbounds(col, row):
-        #     return
-        # if not self._mines_placed:
-        #     self.place_mines(col, row)
+        if not self.is_inbounds(col, row):
+            return
+        if not self._mines_placed:
+            self.place_mines(col, row)
+
+        if self.cells[self.index(col, row)].state.is_revealed:
+            return
+        elif self.cells[self.index(col, row)].state.is_mine:
+            self.game_over = True
+            self._reveal_all_mines()
+            return
+        
+        neighbors = self.neighbors(col, row)
+        all_safe = all(
+            not self.cells[self.index(nc, nr)].state.is_mine
+            for nc, nr in neighbors
+        )
+        if all_safe:
+            for c, r in neighbors:
+                if not self.cells[self.index(c, r)].state.is_revealed:
+                    self.reveal(c, r)
 
         
-        # self._check_win()
+        self._check_win()
         pass
 
     def toggle_flag(self, col: int, row: int) -> None:
