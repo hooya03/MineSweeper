@@ -122,16 +122,16 @@ class Board:
             self._reveal_all_mines()
             return
         
-        neighbors = self.neighbors(col, row)
-        all_safe = all(
-            not self.cells[self.index(nc, nr)].state.is_mine
-            for nc, nr in neighbors
-        )
-        if all_safe:
-            for c, r in neighbors:
-                if not self.cells[self.index(c, r)].state.is_revealed:
-                    self.reveal(c, r)
         self.cells[self.index(col, row)].state.is_revealed = True
+        self.cells[self.index(col, row)].state.is_flagged = False
+        
+        if self.cells[self.index(col, row)].state.adjacent == 0:
+            neighbors = self.neighbors(col, row)
+            for nc, nr in neighbors:
+                if not self.cells[self.index(nc, nr)].state.is_revealed and not self.cells[self.index(nc, nr)].state.is_mine:
+                    if self.cells[self.index(nc, nr)].state.adjacent == 0:
+                        self.reveal(nc, nr)
+        
         self.revealed_count += 1
         self._check_win()
         pass
