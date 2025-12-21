@@ -47,10 +47,10 @@ class Renderer:
             if cell.state.is_mine:
                 pygame.draw.circle(self.screen, config.color_cell_mine, rect.center, rect.width // 4)
             elif cell.state.adjacent > 0:
-                color = config.number_colors.get(cell.state.adjacent, config.color_text)
-                label = self.font.render(str(cell.state.adjacent), True, color)
-                label_rect = label.get_rect(center=rect.center)
-                self.screen.blit(label, label_rect)
+            color = config.number_colors.get(cell.state.adjacent, config.color_text)
+            label = self.font.render(str(cell.state.adjacent), True, color)
+            label_rect = label.get_rect(center=rect.center)
+            self.screen.blit(label, label_rect)
         else:
             base_color = config.color_highlight if highlighted else config.color_cell_hidden
             pygame.draw.rect(self.screen, base_color, rect)
