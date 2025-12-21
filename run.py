@@ -152,6 +152,17 @@ class InputController:
 class Game:
     """Main application object orchestrating loop and high-level state."""
 
+def update_difficulty(self, new_cols, new_rows, new_mines):
+    config.cols = new_cols
+    config.rows = new_rows
+    config.num_mines = new_mines
+    config.width = config.margin_left + config.cols * config.cell_size + config.margin_right
+    config.height = config.margin_top + config.rows * config.cell_size + config.margin_bottom
+    config.display_dimension = (config.width, config.height)
+    
+    self.screen = pygame.display.set_mode(config.display_dimension)
+    self.reset()
+
     def __init__(self):
         pygame.init()
         pygame.display.set_caption(config.title)
