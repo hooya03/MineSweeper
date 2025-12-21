@@ -223,6 +223,10 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     self.reset()
+                    if event.key == pygame.K_1:
+                        self.update_difficulty(9, 9, 10)
+                    if event.key == pygame.K_2:
+                        self.update_difficulty(16, 16, 40)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.input.handle_mouse(event.pos, event.button)
         if (self.board.game_over or self.board.win) and self.started and not self.end_ticks_ms:
