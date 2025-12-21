@@ -152,6 +152,17 @@ class InputController:
 class Game:
     """Main application object orchestrating loop and high-level state."""
 
+def save_high_score(self, current_time_ms):
+    try:
+        with open("highscore.txt", "r") as f:
+            best_time = int(f.read())
+    except:
+        best_time = float('inf')
+
+    if current_time_ms < best_time:
+        with open("highscore.txt", "w") as f:
+            f.write(str(current_time_ms))
+
     def __init__(self):
         pygame.init()
         pygame.display.set_caption(config.title)
